@@ -1,0 +1,137 @@
+{% extends "home/base_patient.html" %}
+
+
+{% block patient %}
+
+    {{ block.super }}
+
+    <style type="text/css">
+
+        td{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+            font-weight: bolder;
+        }
+
+        th{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+    </style>
+
+
+    <section class="home">
+        <div class="container" id="ani-round">
+            <div class="home-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mt-5" dir="rtl">
+
+                        <table class="table" style="font-size: 20px; font-family: Calibri">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <h2 style="color: #AE4C4C; text-align: center; font-family: Calibri">نۇمۇر ئىلىشىڭىز مۇۋاپىقىيەتلىك بولدى !</h2>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td style="color: #205072; text-align: right">بىمار ئىسمى</td>
+                                    <td>{{ appointment.name }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072; text-align: right">يولدىشىنىڭ ئىسمى</td>
+                                    <td>{{ appointment.husband }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072; text-align: right">بىمار يىشى</td>
+                                    <td>{{ appointment.age }}</td>
+                                </tr>
+
+{#                                <tr>#}
+{#                                    <td style="color: #205072;">السكن</td>#}
+{#                                    <td>{{ appointment.address }}</td>#}
+{#                                </tr>#}
+
+                                <tr>
+                                    <td style="color: #205072; text-align: right">ئالاقىلىشىش نۇمۇرى</td>
+                                    <td>{{ appointment.phone }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072; text-align: right">بۆلۈم</td>
+                                    <td>{{ appointment.department_arabic }}</td>
+                                </tr>
+
+{#                                <tr>#}
+{#                                    <td style="color: #205072;">نۇمۇر تەرتىپى</td>#}
+{#                                    <td>{{ appointment.order }}</td>#}
+{#                                </tr>#}
+
+{#                                <tr>#}
+{#                                    <td style="color: #205072;">موعدك الساعة</td>#}
+{#                                    <td dir="ltr">{{ appointment.timeOfArrival }}</td>#}
+{#                                </tr>#}
+                            </tbody>
+                        </table>
+
+                        <table class="table" style="font-family: Calibri; text-align: center; font-size: 18px">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="text-info" style="font-size: 20px">{{ appointment.department_arabic }}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="font-weight: bolder; color: brown;">
+                                    <th>كۈن</th>
+                                    <th>باشلىنىش ۋاقتى</th>
+                                    <th>ئاخىرلىشىش ۋاقتى</th>
+                                </tr>
+
+                                {% for schedule in schedules %}
+                                    {% if schedule.department.name == appointment.department %}
+
+                                        <tr>
+                                            <td>{{ schedule.week.arabic_name }}</td>
+                                            <td>{{ schedule.start }}</td>
+                                            <td>{{ schedule.end }}</td>
+                                        </tr>
+
+                                    {% endif %}
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+{#                        <div class="col-12" style="font-family: Calibri; color: #AE4C4C; text-align: right; font-size: 18px">#}
+{#                            الموعد المحدد هو موعد الحضور إلى المستشفى لتثبيت الحجز عند موظف الاستقبال في قسم العيادات وليس موعد المعاينة#}
+{#    ملاحظة.لا يعتبر الموعد قائم مالم يتم تثبيت الحجز عند موظف استقبال العيادات ويعتبر الحجز ملغى#}
+{#                        </div>#}
+
+{#                        <div class="col-12" style="text-align: center;">#}
+{#                            <br>#}
+{#                            <a href="/editAppointment/{{ appointment.id }}" style="font-family: Calibri; font-size: 18px" class="btn btn-danger btn-lg">#}
+{#                                تەھرىرلەش#}
+{#                            </a>#}
+{#                        </div>#}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+{% endblock patient %}
+

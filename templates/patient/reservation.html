@@ -1,0 +1,138 @@
+{% extends "home/base_patient.html" %}
+
+
+{% block patient %}
+
+    {{ block.super }}
+
+
+    <section class="home">
+        <div class="container" id="ani-round">
+            <div class="home-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mt-5" dir="rtl">
+                        <div class="animation-image" id="">
+                            <div class="heading text-center">
+                                <h1 class="mb-3">
+                                    <span class="text-info fw-normal" style="font-family: Calibri">نۇمۇر ئىلىش جەدۋىلى</span>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <div class="heading" style="font-family: Calibri">
+
+                            <form class="row g-3 needs-validation" action="{% url 'newAppointment' %}" method="post">
+                                {% csrf_token %}
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="name" id="name" class="form-control" maxlength="30" required="" data-error="ئىسمىڭىزنى كىرگۈزۈڭ" placeholder="بىمار ئىسمى" autofocus>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="husband" id="name" class="form-control" maxlength="30" required="" data-error="يولدىشىڭىزنىڭ ئىسمىنى كىرگۈزۈڭ" placeholder="بىمارنىڭ يولدىشىنىڭ ئىسمى" >
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="age" id="age" class="form-control" maxlength="2" required="" data-error="يىشىڭىزنى كىرگۈزۈڭ" placeholder="بىمار يىشى" oninput="setCustomValidity(''); value=value.replace(/[^\d]/g,'')">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="phone" id="phone" class="form-control" maxlength="13" data-error="ئالاقىلىشىش نۇمۇرىنى كىرگۈزۈڭ" placeholder="ئالاقىلىشىش نۇمۇرى" oninput="setCustomValidity(''); value=value.replace(/[^\d]/g,'')">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+{#                                <div class="col-lg-12 col-md-12">#}
+{#                                    <div class="form-group">#}
+{#                                        <select class="form-control" id="example-select" name="marriage" dir="rtl" required>#}
+{##}
+{#                                                <option>الحالة العائلية</option>#}
+{#                                                <option>الحالة العائلية</option>#}
+{#                                                <option value="Married">Married</option>#}
+{#                                                <option value="Unmarried">Unmarried</option>#}
+{##}
+{#                                        </select>#}
+{#                                        <div class="help-block with-errors"></div>#}
+{#                                    </div>#}
+{#                                </div>#}
+
+{#                                <div class="col-lg-12 col-md-12">#}
+{#                                    <div class="form-group">#}
+{#                                        &nbsp;#}
+{#                                        <input type="radio" name="sex" value="ذكر" required="">&nbsp;&nbsp;ذكر#}
+{#                                        &nbsp;&nbsp;&nbsp;#}
+{#                                        <input type="radio" name="sex" value="انثى">&nbsp;&nbsp; انثى#}
+{#                                    </div>#}
+{#                                </div>#}
+
+                                <div class="col-lg-12 col-md-12" >
+                                    <div class="table-responsive">
+                                        <table class="table table-responsive" style="color: #205072; font-family: Calibri">
+                                            {% for schedule in schedules %}
+                                                {% if  schedule.count < schedule.quantity %}
+                                                    <tr>
+                                                        <th>
+                                                            <input type="radio" name="department" value="{{ schedule.department.name }}" required=""> {{ schedule.department.arabic_name }} : {{ schedule.quantity }} / {{ schedule.count }}
+                                                        </th>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </table>
+
+                                        <hr />
+
+                                        <table class="table table-responsive" style="color: darkgray; font-family: Calibri">
+
+                                            {% for schedule in schedules %}
+                                                {% if schedule.count >= schedule.quantity %}
+                                                    <tr>
+                                                        <th>
+                                                              نۇمۇر تۈگىدى &nbsp;{{ schedule.department.arabic_name }}
+                                                        </th>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 text-center">
+
+                                    <button type="submit" class="btn btn-danger btn-lg" style="font-family: Calibri; font-size: 18px">
+                                        يوللاش
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+
+
+{% endblock patient %}
+
+

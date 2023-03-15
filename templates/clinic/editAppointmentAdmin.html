@@ -1,0 +1,147 @@
+{% extends "home/base_admin.html" %}
+
+
+{% block admin %}
+
+
+    <section class="home">
+        <div class="container" id="ani-round">
+            <div class="home-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mt-5" dir="rtl">
+                        <div class="animation-image" id="">
+                            <div class="heading text-center">
+                                <h1 class="mb-3">
+                                    <span class="text-primary fw-normal" style="font-family: Calibri">عيادة جديدة</span>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <div class="heading" style="font-family: Calibri">
+
+                            <form class="row g-3 needs-validation" action="" method="post">
+                                {% csrf_token %}
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="name" id="name" class="form-control" maxlength="30" value="{{ appointment.name }}" required="" data-error="من فضلك أدخل إسمك" placeholder="اسم المريض">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="age" id="age" class="form-control" maxlength="3" value="{{ appointment.age }}" required="" data-error="يرجى إدخال عمرك" placeholder="العمر" oninput="setCustomValidity(''); value=value.replace(/[^\d]/g,'')">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="address" id="address" class="form-control" maxlength="80" value="{{ appointment.address }}" required="" data-error="الرجاء إدخال عنوانك" placeholder="السكن">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="phone" id="phone" class="form-control" maxlength="13" value="{{ appointment.phone }}" required="" data-error="الرجاء إدخال رقم هاتفك المحمول" placeholder="الهاتف" oninput="setCustomValidity(''); value=value.replace(/[^\d]/g,'')">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        {% if appointment.sex == 'ذكر' %}
+                                            &nbsp;
+                                            <input type="radio" name="sex" checked="checked" value="ذكر" required="">&nbsp;&nbsp;ذكر
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="sex" value="انثى">&nbsp;&nbsp; انثى
+                                        {% elif appointment.sex == 'انثى' %}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="sex" value="ذكر" required="">&nbsp;&nbsp;ذكر
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="sex" checked="checked" value="انثى">&nbsp;&nbsp; انثى
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" >
+                                    <div class="table-responsive">
+                                        <table class="table table-responsive" style="color: #0a58ca">
+                                            {% for schedule in schedules %}
+                                                {% if  schedule.count < schedule.quantity %}
+                                                    {% if schedule.department.name == appointment.department %}
+                                                        <tr>
+                                                            <th>
+                                                                <input type="radio" name="department" checked="checked" value="{{ schedule.department.name }}" required=""> {{ schedule.department.arabic_name }} : {{ schedule.quantity }} / {{ schedule.count }}
+                                                            </th>
+                                                        </tr>
+                                                    {% else %}
+                                                        <tr>
+                                                            <th>
+                                                                <input type="radio" name="department" value="{{ schedule.department.name }}" required=""> {{ schedule.department.arabic_name }} : {{ schedule.quantity }} / {{ schedule.count }}
+                                                            </th>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        </table>
+
+                                        <hr />
+
+                                        <table class="table table-responsive" style="color: darkgray">
+
+                                            {% for schedule in schedules %}
+                                                {% if schedule.count >= schedule.quantity %}
+                                                    <tr>
+                                                        <th>
+                                                              إكتمل العدد في العيادة &nbsp;&nbsp;{{ schedule.department.arabic_name }}
+                                                        </th>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 text-center">
+                                    <br>
+                                    <button type="submit" class="btn btn-danger btn-lg" style="font-family: Calibri; font-size: 18px">
+                                        إرسال
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock admin %}
+
+
+<section class="contact-form-section pb-100">
+        <div class="container">
+            <div class="contact-area">
+                <br><br>
+                <a class="navbar-brand" href="{% url 'polyclinicTimeForAdmin' %}">
+                    <img src="/static/images/logo_big.png" alt="logo">
+                </a>
+                <h3 style="font-family: Calibri;">عيادة جديدة</h3>
+
+            </div>
+        </div>
+    </section>

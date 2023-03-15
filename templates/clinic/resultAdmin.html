@@ -1,0 +1,248 @@
+{% extends "home/base_admin.html" %}
+
+
+{% block admin %}
+
+    {{ block.super }}
+
+
+    <style type="text/css">
+
+        td{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+        th{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+    </style>
+
+
+    <section class="home">
+        <div class="container" id="ani-round">
+            <div class="home-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mt-5" dir="rtl">
+
+                        <table class="table" style="font-size: 20px; font-family: Calibri">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <h2 style="color: #AE4C4C; text-align: center; font-family: Calibri">تم الحجز بنجاح&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ date }}</h2>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td style="color: #205072;">اسم المريض</td>
+                                    <td>{{ appointment.name }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">العمر</td>
+                                    <td>{{ appointment.age }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">جنس</td>
+                                    <td>{{ appointment.sex }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">السكن</td>
+                                    <td>{{ appointment.address }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">الهاتف</td>
+                                    <td>{{ appointment.phone }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">القسم</td>
+                                    <td>{{ appointment.department_arabic }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">رقمك</td>
+                                    <td>{{ appointment.order }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="color: #205072;">موعدك الساعة</td>
+                                    <td dir="ltr">{{ appointment.timeOfArrival }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table" style="font-family: Calibri; text-align: center; font-size: 18px">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" style="color: blue; font-size: 18px">{{ appointment.department_arabic }}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="font-weight: bolder; color: brown;">
+                                    <th>نهاية</th>
+                                    <th>بداية</th>
+                                    <th>يوم</th>
+                                </tr>
+
+                                {% for schedule in schedules %}
+                                    {% if schedule.department.name == appointment.department %}
+
+                                        <tr>
+                                            <td>{{ schedule.end }}</td>
+                                            <td>{{ schedule.start }}</td>
+                                            <td>{{ schedule.week.arabic_name }}</td>
+                                        </tr>
+
+                                    {% endif %}
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="col-12" style="font-family: Calibri; color: #AE4C4C; text-align: right; font-size: 18px">
+                            الموعد المحدد هو موعد الحضور إلى المستشفى لتثبيت الحجز عند موظف الاستقبال في قسم العيادات وليس موعد المعاينة
+    ملاحظة.لا يعتبر الموعد قائم مالم يتم تثبيت الحجز عند موظف استقبال العيادات ويعتبر الحجز ملغى
+                        </div>
+
+                        <div class="col-12" style="text-align: center;">
+                            <br>
+                            <a href="{% url 'editAppointmentAdmin' appointment.id %}" style="font-family: Calibri; font-size: 18px" class="btn btn-danger btn-lg">
+                                تعديل
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+
+
+{% endblock admin %}
+
+    <section class="contact-form-section pb-100">
+        <div class="container">
+            <div class="contact-area">
+
+
+                <div class="row" style="font-family: Calibri">
+
+                    <table class="table" style="font-size: 20px">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    <h2 style="color: dodgerblue; text-align: center">تم الحجز &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ date }}</h2>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td style="color: brown">اسم المريض</td>
+                                <td>{{ appointment.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">العمر</td>
+                                <td>{{ appointment.age }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">جنس</td>
+                                <td>{{ appointment.sex }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">السكن</td>
+                                <td>{{ appointment.address }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">الهاتف</td>
+                                <td>{{ appointment.phone }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">القسم</td>
+                                <td>{{ appointment.department_arabic }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">رقمك</td>
+                                <td>{{ appointment.order }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="color: brown">موعدك الساعة</td>
+                                <td dir="ltr">{{ appointment.timeOfArrival }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <hr style="margin-top: 1px; margin-bottom: 15px; margin-right: 25px">
+
+                    <table style="font-family: Calibri; text-align: center; font-size: 22px">
+
+                        <tr>
+                            <th colspan="3" style="color: blue">{{ appointment.department_arabic }}</th>
+                        </tr>
+
+                        <tr>
+                            <th colspan="3"><br></th>
+                        </tr>
+
+                        <tr style="font-weight: bolder; color: brown">
+                            <th>يوم</th>
+                            <th>بداية</th>
+                            <th>نهاية</th>
+                        </tr>
+                        <tr>
+                            <td><br></td>
+                            <td><br></td>
+                            <td><br></td>
+                        </tr>
+
+                        {% for schedule in schedules %}
+                            {% if schedule.department.name == appointment.department %}
+
+                                <tr style="color: black">
+                                    <td>{{ schedule.week.arabic_name }}</td>
+                                    <td>{{ schedule.start }}</td>
+                                    <td>{{ schedule.end }}</td>
+                                </tr>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </table>
+
+                    <div class="col-12" style="text-align: center">
+                        <br>
+                        <a href="{% url 'editAppointmentAdmin' appointment.id %}" style="font-size: 25px" class="btn btn-danger btn-lg">
+                            تعديل
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>

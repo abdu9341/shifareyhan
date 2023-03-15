@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Responsive bootstrap landing template">
+    <title>Shifa Reyhan</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- tiny slider -->
+    <link href="/static/css/tiny-slider.css" rel="stylesheet">
+{#    <link rel="stylesheet" href="/static/css/swiper.min.css" type="text/css">#}
+
+    <!-- Materialdesign icons css -->
+    <link href="/static/css/materialdesignicons.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!-- small logo -->
+    <link href="/static/image/icon.png" rel="icon">
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-navlist" data-bs-offset="71">
+
+    <!--Navbar Start-->
+    <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
+        <div class="container-fluid custom-container">
+            <a class="navbar-brand logo text-uppercase" href="">
+                <img src="/static/image/logo-dark.png" class="logo-light" alt="" style="height: 60px">
+                <h7 class="logo-title ml-2" style="font-family: Calibri; color: #205072; font-size: 18px; font-weight: bolder;">شىپا رەيھان</h7>
+                <!-- <img src="images/logo-light.png" class="logo-dark" alt="" height="28"> -->
+            </a>
+
+            <button class="navbar-toggler me-3 order-2 ms-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse" dir="rtl">
+                <ul class="navbar-nav mx-auto navbar-center">
+                    <li class="nav-item active">
+                        {% if request.get_full_path == '/polyclinicTimeForPatient/' %}
+                            <a href="{% url 'polyclinicTimeForPatient' %}" class="nav-link" style="font-family: Calibri; color: brown; font-size: 18px">ئامبۇلاتورىيە ۋاقتى</a>
+                        {% else %}
+                            <a href="{% url 'polyclinicTimeForPatient' %}" class="nav-link" style="font-family: Calibri; font-size: 18px">ئامبۇلاتورىيە ۋاقتى</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item dropdown dropdown-hover">
+                        {% if request.get_full_path == '/reservation/' %}
+                                <a href="/reservation/" class="nav-link" style="font-family: Calibri; color: brown; font-size: 18px">نۇمۇر ئىلىش</a>
+                            {% else %}
+                                <a href="/reservation/" class="nav-link" style="font-family: Calibri; font-size: 18px">نۇمۇر ئىلىش</a>
+                            {% endif %}
+                    </li>
+
+                </ul>
+                <!--end navbar-nav-->
+            </div>
+
+            <!--end header-menu-->
+        </div>
+        <!--end container-->
+    </nav>
+    <!-- Navbar End -->
+
+
+      {% block patient %}
+
+
+
+
+
+    {% endblock patient %}
+
+
+
+    <!-- bootstrap -->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/tiny-slider.js"></script>
+    <script src="/static/js/swiper.min.js"></script>
+
+    <!-- counter -->
+    <script src="/static/js/counter.init.js"></script>
+
+    <!-- Custom -->
+    <script src="/static/js/app.js"></script>
+
+    <script>
+            (function () {
+                // Add event listener
+                document.addEventListener("mousemove", parallax);
+                const elem = document.querySelector("#home-animation");
+                // Magic happens here
+                function parallax(e) {
+                    let _w = window.innerWidth / 2;
+                    let _h = window.innerHeight / 2;
+                    let _mouseX = e.clientX;
+                    let _mouseY = e.clientY;
+                    let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${50 - (_mouseY - _h) * 0.01}%`;
+                    let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${50 - (_mouseY - _h) * 0.02}%`;
+                    let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${50 - (_mouseY - _h) * 0.06}%`;
+                    let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+                    elem.style.backgroundPosition = x;
+                }
+
+            })();
+
+    </script>
+    <script>
+        (function () {
+            // Add event listener
+            document.addEventListener("mousemove", parallax);
+            const elem = document.querySelector("#ani-round");
+            // Magic happens here
+            function parallax(e) {
+                let _w = window.innerWidth / 2;
+                let _h = window.innerHeight / 2;
+                let _mouseX = e.clientX;
+                let _mouseY = e.clientY;
+                let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${50 - (_mouseY - _h) * 0.01}%`;
+                let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${50 - (_mouseY - _h) * 0.02}%`;
+                let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${50 - (_mouseY - _h) * 0.06}%`;
+                let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+                elem.style.backgroundPosition = x;
+            }
+
+        })();
+
+    </script>
+
+</body>
+
+</html>

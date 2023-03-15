@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Responsive bootstrap landing template">
+    <title>Idlib Hospital</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- tiny slider -->
+    <link href="/static/css/tiny-slider.css" rel="stylesheet">
+{#    <link rel="stylesheet" href="/static/css/swiper.min.css" type="text/css">#}
+
+
+    <!-- Materialdesign icons css -->
+    <link href="/static/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!-- small logo -->
+    <link href="/static/image/icon.png" rel="icon">
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-navlist" data-bs-offset="71">
+
+    <!--Navbar Start-->
+    <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
+        <div class="container-fluid custom-container">
+            <a class="navbar-brand logo text-uppercase" href="">
+                <img src="/static/image/logo-dark.png" class="logo-light" alt="" style="height: 60px">
+                <h7 class="logo-title ml-2" style="font-family: Calibri; color: #205072; font-size: 18px">مستشفى ادلب الوطني</h7>
+                <!-- <img src="images/logo-light.png" class="logo-dark" alt="" height="28"> -->
+            </a>
+
+            <button class="navbar-toggler me-3 order-2 ms-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse" dir="rtl">
+                <ul class="navbar-nav mx-auto navbar-center">
+
+                    <li class="nav-item active">
+                        {% if request.get_full_path == '/polyclinicDepartment/' %}
+                            <a href="{% url 'polyclinicDepartment' %}" class="nav-link" style="font-family: Calibri; color: brown; font-size: 20px">قسم العيادات</a>
+                        {% else %}
+                            <a href="{% url 'polyclinicDepartment' %}" class="nav-link" style="font-family: Calibri; font-size: 20px">قسم العيادات</a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item active">
+                        {% if request.get_full_path == '/polyclinicTimeForAdmin/' %}
+                            <a href="{% url 'polyclinicTimeForAdmin' %}" class="nav-link" style="font-family: Calibri; color: brown; font-size: 20px">وقت العيادات</a>
+                        {% else %}
+                            <a href="{% url 'polyclinicTimeForAdmin' %}" class="nav-link" style="font-family: Calibri; font-size: 20px">وقت العيادات</a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item active">
+                        {% if request.get_full_path == '/reservationAdmin/' %}
+                            <a href="{% url 'reservationAdmin' %}" class="nav-link" style="font-family: Calibri; color: brown; font-size: 20px">الحجز</a>
+                        {% else %}
+                            <a href="{% url 'reservationAdmin' %}" class="nav-link" style="font-family: Calibri; font-size: 20px">الحجز</a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item active">
+                        {% if request.get_full_path == '/systemTime/' %}
+                            <a href="{% url 'systemTime' %}" class="nav-link" style="font-family: Calibri; color: brown; font-size: 20px">وقت النظام</a>
+                        {% else %}
+                            <a href="{% url 'systemTime' %}" class="nav-link" style="font-family: Calibri; font-size: 20px">وقت النظام</a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item active">
+                        {% if request.get_full_path == '/excel/' %}
+                            <a href="{% url 'excel' %}" class="nav-link" style="font-family: Calibri; color: red; font-size: 20px">excel</a>
+                        {% else %}
+                            <a href="{% url 'excel' %}" class="nav-link" style="font-family: Calibri; font-size: 20px">excel</a>
+                        {% endif %}
+                    </li>
+
+                </ul>
+                <!--end navbar-nav-->
+            </div>
+
+            <div class="header-menu list-inline d-flex align-items-center mb-0 order-1">
+                <div class="list-inline-item dropdown me-sm-5">
+                    <a href="#" class="header-item" id="userdropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-account-box-outline f-24 text-black"></i>
+{#                        {{ user.name }}#}
+
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
+                        <li><a class="dropdown-item" href="/profileAdmin/">Profile</a></li>
+                        <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--end header-menu-->
+        </div>
+        <!--end container-->
+    </nav>
+    <!-- Navbar End -->
+
+
+    {% block admin %}
+
+
+
+
+
+    {% endblock admin %}
+
+
+
+    <!-- bootstrap -->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/tiny-slider.js"></script>
+    <script src="/static/js/swiper.min.js"></script>
+
+    <!-- counter -->
+    <script src="/static/js/counter.init.js"></script>
+
+    <!-- Custom -->
+    <script src="/static/js/app.js"></script>
+
+    <script>
+        (function () {
+            // Add event listener
+            document.addEventListener("mousemove", parallax);
+            const elem = document.querySelector("#home-animation");
+            // Magic happens here
+            function parallax(e) {
+                let _w = window.innerWidth / 2;
+                let _h = window.innerHeight / 2;
+                let _mouseX = e.clientX;
+                let _mouseY = e.clientY;
+                let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${50 - (_mouseY - _h) * 0.01}%`;
+                let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${50 - (_mouseY - _h) * 0.02}%`;
+                let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${50 - (_mouseY - _h) * 0.06}%`;
+                let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+                elem.style.backgroundPosition = x;
+            }
+
+        })();
+
+    </script>
+    <script>
+        (function () {
+            // Add event listener
+            document.addEventListener("mousemove", parallax);
+            const elem = document.querySelector("#ani-round");
+            // Magic happens here
+            function parallax(e) {
+                let _w = window.innerWidth / 2;
+                let _h = window.innerHeight / 2;
+                let _mouseX = e.clientX;
+                let _mouseY = e.clientY;
+                let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${50 - (_mouseY - _h) * 0.01}%`;
+                let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${50 - (_mouseY - _h) * 0.02}%`;
+                let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${50 - (_mouseY - _h) * 0.06}%`;
+                let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+                elem.style.backgroundPosition = x;
+            }
+
+        })();
+
+    </script>
+
+</body>
+
+</html>

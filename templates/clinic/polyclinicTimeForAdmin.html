@@ -1,0 +1,269 @@
+{% extends "home/base_admin.html" %}
+
+
+{% block admin %}
+
+
+
+    <script type="text/javascript" language="JavaScript">
+		function deleteSchedule()
+		{
+		     if(confirm("Do you have to delete?"))
+		        {
+		         return true;
+		        }
+		     else
+		         {
+		         return false;
+			    }
+		}
+    </script>
+
+
+    <style type="text/css">
+
+        td{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+        th{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+    </style>
+
+
+    <section class="home">
+            <div class="container" id="ani-round">
+                <div class="home-content">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 mt-5" dir="rtl">
+                            <div class="animation-image" id="">
+                                <div class="heading text-center">
+                                    <h1 class="mb-3">
+                                        <span class="text-primary fw-normal" style="font-family: Calibri">وقت العيادات</span>
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <a data-bs-toggle="modal" class="btn btn-success" data-bs-target="#schedule" href="#" style="font-family: Calibri; font-size: 16px">
+                                اضافة عيادة جديدة +
+                            </a>
+
+                            <table class="table table-responsive table-hover">
+                            <thead>
+                                <tr style="font-family: Calibri; text-align: center">
+                                    <th colspan="8" style="color: red; font-size: 28px">{{ message }}</th>
+                                </tr>
+
+                                <tr style="font-family: Calibri">
+                                    <th>أقسام</th>
+                                    <th>أسبوع</th>
+                                    <th>العدد</th>
+                                    <th>بداية</th>
+                                    <th>نهاية</th>
+                                    <th>وقت</th>
+                                    <th>الحالة</th>
+                                    <th>عمل</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for schedule in schedules %}
+                                    <tr style="font-family: Calibri">
+                                        <td>{{ schedule.department.arabic_name }}</td>
+                                        <td>{{ schedule.week.arabic_name }}</td>
+                                        <td>{{ schedule.quantity }}</td>
+                                        <td>{{ schedule.start }}</td>
+                                        <td>{{ schedule.end }}</td>
+                                        <td>{{ schedule.time }}</td>
+
+                                        <td>
+                                            {% if schedule.status %}
+                                                <a href="{% url 'closeSchedule' schedule.id %}">
+                                                    <button class="btn btn-primary" type="submit">مفتوح</button>
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'openSchedule' schedule.id %}">
+                                                    <button class="btn btn-danger" type="submit">مغلق</button>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+{#                                            <a data-bs-toggle="modal" data-bs-target="#editSchedule{{ schedule.id }}" title="Edit">#}
+{#                                                <img src="/static/image/edit.png" style="height:20%; text-align: center" alt="" class="img-fluid">#}
+{#                                            </a>#}
+                                            &nbsp;
+                                            <a href="{% url 'deleteSchedule' schedule.id %}" title="Delete" onclick="return deleteSchedule()">
+                                                <img src="/static/image/delete.png" style="height:20%; text-align: center" alt="" class="img-fluid">
+                                            </a>
+
+
+                                            <!-- Modal Edit Schedule -->
+                                            <div class="modal fade" id="editSchedule{{ schedule.id }}" tabindex="-1" aria-labelledby="editScheduleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body" style="font-family: Calibri; text-align: right">
+                                                            <form class="row g-3 needs-validation" action="{% url 'editSchedule' schedule.id %}" method="POST">
+                                                                {% csrf_token %}
+
+                                                                <div class="col-md-4" >
+                                                                    <label style="color: blue;">أقسام <span class="text-primary">*</span></label>
+                                                                    <br>
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">
+                                                                        <select name="department" class="form-control" required="required">
+                                                                            {% for department in departments %}
+                                                                                {% if schedule.department.id == department.id %}
+                                                                                    <option selected value="{{ department.id }}">{{ department.arabic_name }}</option>
+                                                                                {% else %}
+                                                                                    <option value="{{ department.id }}">{{ department.arabic_name }}</option>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label style="color: blue" >أسبوع <span class="text-primary">*</span></label>
+                                                                    <br>
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">
+                                                                        <select name="week" class="form-control" required="required">
+                                                                            {% for week in weeks %}
+                                                                                {% if schedule.week_id == week.id %}
+                                                                                    <option selected value="{{ week.id }}">{{ week.arabic_name }}</option>
+                                                                                {% else %}
+                                                                                    <option value="{{ week.id }}">{{ week.arabic_name }}</option>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">العدد <span class="text-primary">*</span></label>
+                                                                    <input type="number" class="form-control" style="font-family: Calibri" name="quantity" value="{{ schedule.quantity }}" maxlength="25" required="">
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">بداية <span class="text-primary">*</span></label>
+                                                                    <input type="time" class="form-control" style="font-family: Calibri" name="start" maxlength="25" value="{{ schedule.start }}" placeholder="08:30" required="" dir="ltr">
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">نهاية <span class="text-primary">*</span></label>
+                                                                    <input type="time" class="form-control" style="font-family: Calibri" name="end" maxlength="25" value="{{ schedule.end }}" placeholder="12:30" required="" dir="ltr">
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">وقت <span class="text-primary">*</span></label>
+                                                                    <input type="number" class="form-control" style="font-family: Calibri" name="time" value="{{ schedule.time }}" maxlength="25" required="">
+                                                                </div>
+
+                                                                <div class="col-12" style="text-align: center">
+                                                                    <button class="btn btn-primary" type="submit">إرسال</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end modal Edit Schedule -->
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+    <!-- Modal Add Schedule -->
+    <div class="modal fade" id="schedule" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="font-family: Calibri" dir="rtl">
+                    <form class="row g-3 needs-validation" action="{% url 'addSchedule' %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="col-md-4" >
+                            <label style="color: blue;" class="form-label">أقسام <span class="text-primary">*</span></label>
+                            <br>
+                            <label for="validationCustom01" style="color: blue" class="form-label">
+                                <select name="department" class="form-control" required="required">
+                                    <option value=""></option>
+                                    {% for department in departments %}
+                                        <option value="{{ department.id }}">{{ department.arabic_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label style="color: blue" for="validationCustom01" class="form-label">أسبوع <span class="text-primary">*</span></label>
+                            <br>
+                            <label for="validationCustom01" style="color: blue" class="form-label">
+                                <select name="week" class="form-control" required="required">
+                                    <option value=""></option>
+                                    {% for week in weeks %}
+                                        <option value="{{ week.id }}">{{ week.arabic_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">العدد <span class="text-primary">*</span></label>
+                            <input type="number" class="form-control" style="font-family: Calibri" name="quantity" id="inputText" maxlength="25" required="" dir="ltr">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">بداية <span class="text-primary">*</span></label>
+                            <input type="time" class="form-control" style="font-family: Calibri" name="start" maxlength="25" placeholder="08:30" required="" dir="ltr">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">نهاية <span class="text-primary">*</span></label>
+                            <input type="time" class="form-control" style="font-family: Calibri" name="end" maxlength="25" placeholder="12:30" required="" dir="ltr">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">وقت <span class="text-primary">*</span></label>
+                            <input type="number" class="form-control" style="font-family: Calibri" name="time" maxlength="25" required="" dir="ltr">
+                        </div>
+
+                        <div class="col-12" style="text-align: center">
+                            <button class="btn btn-primary" type="submit">إرسال</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end modal Add Schedule -->
+
+
+{% endblock admin %}

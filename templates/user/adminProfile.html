@@ -1,0 +1,119 @@
+{% extends "home/base_admin.html" %}
+
+
+{% block admin %}
+
+
+
+    <style type="text/css">
+
+        td{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+        th{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+            width: 260px;
+        }
+
+    </style>
+
+    <section class="home">
+            <div class="container" id="ani-round">
+                <div class="home-content">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 mt-5" dir="rtl">
+                            <div class="animation-image" id="">
+                                <div class="heading">
+                                    <h1 class="mb-3">
+                                        <span class="text-primary fw-normal" style="font-family: Calibri">الملف الشخصي</span>
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <table class="table table-responsive-lg" style="font-size: 18px">
+                                <thead>
+                                    <tr style="font-family: Calibri; text-align: center">
+
+                                        <th colspan="4" style="color: red; font-size: 28px">{{ message }}</th>
+
+                                    </tr>
+
+                                    <tr style="font-family: Calibri">
+                                        <th>الحساب</th>
+                                        <th>الاسم</th>
+                                        <th>كلمه السر</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr style="font-family: Calibri">
+                                        <td>{{ user.account }}</td>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.password }}</td>
+
+                                        <td>
+                                            <a data-bs-toggle="modal" data-bs-target="#editAdminProfile" title="Edit">
+                                                <img src="/static/image/edit.png" style="height:20%; text-align: center" alt="" class="img-fluid">
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+
+    <!-- Modal Edit Admin Profile -->
+    <div class="modal fade" id="editAdminProfile" tabindex="-1" aria-labelledby="editAdminProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="font-family: Calibri" dir="rtl">
+                    <form class="row g-3 needs-validation" action="{% url 'editAdminProfile' user.id %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">الحساب <span class="text-primary">*</span></label>
+                            <p style="font-size: 20px; color: #6610f2">{{ user.account }}</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">الاسم <span class="text-primary">*</span></label>
+                            <input type="text" class="form-control" style="font-family: Calibri" name="name" maxlength="25" value="{{ user.name }}" required="">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="validationCustom01" style="color: blue" class="form-label">كلمه السر <span class="text-primary">*</span></label>
+                            <input type="text" class="form-control" style="font-family: Calibri" name="password" maxlength="25" value="{{ user.password }}" required="">
+                        </div>
+
+                        <div class="col-12" style="text-align: center">
+                            <button class="btn btn-primary" type="submit">إرسال</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end modal Edit Admin Profile -->
+
+
+{% endblock admin %}

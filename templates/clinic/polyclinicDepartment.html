@@ -1,0 +1,182 @@
+{% extends "home/base_admin.html" %}
+
+
+{% block admin %}
+
+
+
+    <script type="text/javascript" language="JavaScript">
+		function deleteDepartment()
+		{
+		     if(confirm("Do you have to delete?"))
+		        {
+		         return true;
+		        }
+		     else
+		         {
+		         return false;
+			    }
+		}
+    </script>
+
+
+    <style type="text/css">
+
+        td{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        th{
+            vertical-align: middle;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+    </style>
+
+
+    <section class="home">
+            <div class="container" id="ani-round">
+                <div class="home-content">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 mt-5" dir="rtl">
+                            <div class="animation-image" id="">
+                                <div class="heading text-center">
+                                    <h1 class="mb-3">
+                                        <span class="text-primary fw-normal" style="font-family: Calibri">قسم العيادات</span>
+                                    </h1>
+                                </div>
+                            </div>
+
+                        <a data-bs-toggle="modal" class="btn btn-success" data-bs-target="#department" href="#" style="font-family: Calibri; font-size: 16px">
+                            اضافة عيادة جديدة +
+                        </a>
+                            <table class="table table-responsive table-hover">
+                            <thead>
+                                <tr style="font-family: Calibri; text-align: center">
+
+                                    <th colspan="4" style="color: red; font-size: 28px">{{ message }}</th>
+
+                                </tr>
+
+                                <tr style="font-family: Calibri">
+                                    <th>الاسم العربي</th>
+                                    <th>الاسم الانجليزي</th>
+                                    <th>الحالة</th>
+                                    <th>عمل</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for department in departments %}
+                                    <tr style="font-family: Calibri">
+                                        <td>{{ department.arabic_name }}</td>
+                                        <td>{{ department.name }}</td>
+
+                                        <td>
+                                            {% if department.status %}
+                                                <a href="{% url 'inactiveDepartment' department.id %}">
+                                                    <button class="btn btn-primary" type="submit">مفتوح</button>
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'activeDepartment' department.id %}">
+                                                    <button class="btn btn-danger" type="submit">مغلق</button>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            <a data-bs-toggle="modal" data-bs-target="#editDepartment{{ department.id }}" title="Edit">
+                                                <img src="/static/image/edit.png" style="height:20%; text-align: center" alt="" class="img-fluid">
+                                            </a>
+                                            &nbsp;
+                                            <a href="{% url 'deleteDepartment' department.id %}" title="Delete" onclick="return deleteDepartment()">
+                                                <img src="/static/image/delete.png" style="height:20%; text-align: center" alt="" class="img-fluid">
+                                            </a>
+
+
+                                            <!-- Modal Edit Department -->
+                                            <div class="modal fade" id="editDepartment{{ department.id }}" tabindex="-1" aria-labelledby="editDepartmentModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body" style="font-family: Calibri; text-align: right">
+                                                            <form class="row g-3 needs-validation" action="{% url 'editDepartment' department.id %}" method="POST">
+                                                                {% csrf_token %}
+
+                                                                <div class="col-md-6">
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">الاسم العربي <span class="text-primary">*</span></label>
+                                                                    <input type="text" class="form-control" style="font-family: Calibri" name="arabic_name" value="{{ department.arabic_name }}" maxlength="35" required="">
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <label for="validationCustom01" style="color: blue" class="form-label">الاسم الانجليزي <span class="text-primary">*</span></label>
+                                                                    <input type="text" class="form-control" style="font-family: Calibri" name="name" maxlength="25" value="{{ department.name }}" required="" dir="ltr">
+                                                                </div>
+
+
+                                                                <div class="col-12" style="text-align: center">
+                                                                    <button class="btn btn-primary" type="submit">إرسال</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end modal Edit Department -->
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+    <!-- Modal Add Department -->
+    <div class="modal fade" id="department" tabindex="-1" aria-labelledby="departmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="font-family: Calibri" dir="rtl">
+                    <form class="row g-3 needs-validation" action="{% url 'addDepartment' %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="col-md-6">
+                            <label for="validationCustom01" style="color: blue" class="form-label">الاسم العربي <span class="text-primary">*</span></label>
+                            <input type="text" class="form-control" style="font-family: Calibri" name="arabic_name" maxlength="35" required="">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="validationCustom01" style="color: blue" class="form-label">الاسم الانجليزي <span class="text-primary">*</span></label>
+                            <input type="text" class="form-control" style="font-family: Calibri" name="name" maxlength="25" required="" dir="ltr">
+                        </div>
+
+                        <div class="col-12" style="text-align: center">
+                            <button class="btn btn-primary" type="submit">إرسال</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end modal Add Department -->
+
+
+{% endblock admin %}

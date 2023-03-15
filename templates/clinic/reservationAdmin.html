@@ -1,0 +1,131 @@
+{% extends "home/base_admin.html" %}
+
+
+{% block admin %}
+
+
+
+    <section class="home">
+        <div class="container" id="ani-round">
+            <div class="home-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mt-5" dir="rtl">
+                        <div class="animation-image" id="">
+                            <div class="heading text-center">
+                                <h1 class="mb-3">
+                                    <span class="text-primary fw-normal" style="font-family: Calibri">عيادة جديدة</span>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <div class="heading" style="font-family: Calibri">
+
+                            <form class="row g-3 needs-validation" action="{% url 'newAppointmentAdmin' %}" method="post">
+                                {% csrf_token %}
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="name" id="name" class="form-control" maxlength="30" required="" data-error="من فضلك أدخل إسمك" placeholder="اسم المريض" autofocus>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="age" id="age" class="form-control" maxlength="2" required="" data-error="يرجى إدخال عمرك" placeholder="العمر" oninput="setCustomValidity(''); value=value.replace(/[^\d]/g,'')">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="address" id="address" class="form-control" maxlength="80" required="" data-error="الرجاء إدخال عنوانك" placeholder="السكن">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="phone" id="phone" class="form-control" maxlength="13" required="" data-error="الرجاء إدخال رقم هاتفك المحمول" placeholder="الهاتف" oninput="setCustomValidity(''); value=value.replace(/[^\d]/g,'')">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        &nbsp;
+                                        <input type="radio" name="sex" value="ذكر" required="">&nbsp;&nbsp;ذكر
+                                        &nbsp;&nbsp;&nbsp;
+                                        <input type="radio" name="sex" value="انثى">&nbsp;&nbsp; انثى
+                                    </div>
+                                </div>
+
+                        <div class="col-lg-12 col-md-12" >
+                            <div class="table-responsive">
+                                <table class="table table-responsive" style="color: #0a58ca">
+                                    {% for schedule in schedules %}
+                                        {% if schedule.quantity > schedule.count %}
+                                            <tr>
+                                                <th>
+                                                    <input type="radio" name="department" value="{{ schedule.department.name }}" required=""> {{ schedule.department.arabic_name }} : {{ schedule.quantity }} / {{ schedule.count }}
+                                                </th>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </table>
+
+                                <hr />
+
+                                <table class="table table-responsive" style="color: darkgray">
+
+                                    {% for schedule in schedules %}
+                                        {% if schedule.count >= schedule.quantity %}
+                                            <tr>
+                                                <th>
+                                                      إكتمل العدد في العيادة &nbsp;&nbsp;{{ schedule.department.arabic_name }}
+                                                </th>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <br>
+                            <button type="submit" class="btn btn-danger btn-lg" style="font-family: Calibri; font-size: 18px">
+                                إرسال
+                            </button>
+
+                        </div>
+
+                </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+{% endblock admin %}
+
+
+<section class="contact-form-section pb-100">
+        <div class="container">
+            <div class="contact-area">
+                <br>
+                <a class="navbar-brand" href="{% url 'reservationAdmin' %}">
+                    <img src="/static/images/logo_big.png" alt="logo">
+                </a>
+                <h3 style="font-family: Calibri;">عيادة جديدة</h3>
+
+            </div>
+        </div>
+    </section>
